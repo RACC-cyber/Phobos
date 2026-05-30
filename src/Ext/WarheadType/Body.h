@@ -269,6 +269,8 @@ public:
 		bool VeterancyCheck;
 		TechnoClass* DamageAreaTarget;
 
+		Valueable<int> Ammo;
+
 	private:
 		Valueable<double> Shield_Respawn_Rate_InMinutes;
 		Valueable<double> Shield_SelfHealing_Rate_InMinutes;
@@ -522,6 +524,7 @@ public:
 			, ApplyPerTargetEffectsOnDetonate {}
 
 			, Taunt { false }
+			, Ammo { 0 }
 		{ }
 
 		void ApplyConvert(HouseClass* pHouse, TechnoClass* pTarget);
@@ -562,6 +565,7 @@ public:
 		void ApplyReturnWarhead(HouseClass* pHouse, TechnoClass* pTarget, TechnoClass* Owner);
 		void ApplyPenetratesTransport(TechnoClass* pTarget, TechnoClass* pInvoker, HouseClass* pInvokerHouse, const CoordStruct& coords, int damage, int distance);
 		double GetCritChance(TechnoClass* pFirer) const;
+		void ApplyAmmoModifier(TechnoClass* pTarget);
 	};
 
 	class ExtContainer final : public Container<WarheadTypeExt>
