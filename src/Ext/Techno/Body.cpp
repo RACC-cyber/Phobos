@@ -12,6 +12,7 @@
 
 TechnoExt::ExtContainer TechnoExt::ExtMap;
 UnitClass* TechnoExt::Deployer = nullptr;
+TechnoClass* TechnoExt::DeployTransferSource = nullptr;
 
 TechnoExt::ExtData::~ExtData()
 {
@@ -1319,12 +1320,20 @@ void TechnoExt::ExtData::Serialize(T& Stm)
 		.Process(this->HoverShutdown)
 		.Process(this->LastTargetCrd)
 		.Process(this->LastTargetCrdClearTimer)
+		.Process(this->AltOccupation)
 		;
 }
 
 void TechnoExt::ExtData::InvalidatePointer(void* ptr, bool bRemoved)
 {
 	AnnounceInvalidPointer(this->AirstrikeTargetingMe, ptr);
+
+	for (auto const& pAttachment : ChildAttachments)
+		pAttachment->InvalidatePointer(ptr);
+
+	for (auto& [key, vec] : DormantAttachments)
+		for (auto const& pAttachment : vec)
+			pAttachment->InvalidatePointer(ptr);
 }
 
 void TechnoExt::ExtData::LoadFromStream(PhobosStreamReader& Stm)
