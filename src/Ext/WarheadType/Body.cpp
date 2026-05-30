@@ -470,6 +470,7 @@ void WarheadTypeExt::ExtData::LoadFromINIFile(CCINIClass* const pINI)
 		|| this->ReturnWarhead
 		|| this->PenetratesTransport_Level > 0
 		|| this->Taunt
+		|| this->Ammo
 	);
 
 	char tempBuffer[32];
@@ -509,6 +510,8 @@ void WarheadTypeExt::ExtData::LoadFromINIFile(CCINIClass* const pINI)
 		else
 			this->SpawnsCrate_Weights.push_back(weight);
 	}
+
+	this->Ammo.Read(exINI, pSection, "Ammo");
 }
 
 template <typename T>
@@ -754,6 +757,8 @@ void WarheadTypeExt::ExtData::Serialize(T& Stm)
 		.Process(this->PossibleCellSpreadDetonate)
 		.Process(this->Reflected)
 		.Process(this->DamageAreaTarget)
+
+		.Process(this->Ammo)
 		;
 }
 
